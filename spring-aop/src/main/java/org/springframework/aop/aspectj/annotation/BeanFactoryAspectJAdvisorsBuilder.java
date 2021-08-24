@@ -127,7 +127,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 								//构建切面注解的实例工厂
 								MetadataAwareAspectInstanceFactory factory =
 										new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
-								//真正的去获取我们的通知对象
+								//真正的去获取我们的通知对象    // TODO getAdvisors：获取切面类中所有的Advisor
 								List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 								//加入到缓存中
 								if (this.beanFactory.isSingleton(beanName)) {

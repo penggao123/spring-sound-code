@@ -309,7 +309,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	}
 
 	/**
-	 * 生成aop代理
+	 * 生成aop代理  创建动态代理
 	 * 在该后置方法中 我们的事务和aop的代理对象都是在这生成的
 	 * @param bean bean实例
 	 * @param beanName bean的名称
