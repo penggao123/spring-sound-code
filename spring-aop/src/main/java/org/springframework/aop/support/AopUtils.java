@@ -219,7 +219,7 @@ public abstract class AopUtils {
 	 */
 	public static boolean canApply(Pointcut pc, Class<?> targetClass, boolean hasIntroductions) {
 		Assert.notNull(pc, "Pointcut must not be null");
-		// 进行类级别过滤(通过AspectJ)
+		// 进行类级别过滤(通过AspectJ)   TODO 初筛
 		if (!pc.getClassFilter().matches(targetClass)) {
 			return false;
 		}
@@ -341,6 +341,7 @@ public abstract class AopUtils {
 			/**
 			 * 真正的判断我们的事务增强器是不是我们合适的
 			 */
+			//精筛
 			if (canApply(candidate, clazz, hasIntroductions)) {
 				eligibleAdvisors.add(candidate);
 			}

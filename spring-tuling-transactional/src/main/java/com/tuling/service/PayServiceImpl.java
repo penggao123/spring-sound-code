@@ -14,7 +14,8 @@ import java.math.BigDecimal;
  * Created by xsls on 2019/6/17.
  */
 @Component
-@Transactional(rollbackFor = Exception.class)
+//@Transactional(rollbackFor = Exception.class)
+@Transactional
 public class PayServiceImpl implements PayService {
 
     @Autowired
@@ -23,7 +24,8 @@ public class PayServiceImpl implements PayService {
     @Autowired
     private ProductInfoDao productInfoDao;
 
-    public void pay(String accountId, double money) {
+    @Override
+	public void pay(String accountId, double money) {
         //查询余额
         double blance = accountInfoDao.qryBlanceByUserId(accountId);
 
@@ -44,7 +46,8 @@ public class PayServiceImpl implements PayService {
 
     }
 
-    @Transactional(propagation = Propagation.NESTED)
+    @Override
+	@Transactional(propagation = Propagation.NESTED)
     public void updateProductStore(Integer productId) {
         try{
             productInfoDao.updateProductInfo(productId);

@@ -22,12 +22,12 @@ public class MainConfig {
 
 
     @Bean
-    @Lookup
+//    @Lookup
     public DataSource dataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUsername("root");
         dataSource.setPassword("123456");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/tuling-spring-trans");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/tuling-spring-trans?useSSL=true");
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         return dataSource;
     }
