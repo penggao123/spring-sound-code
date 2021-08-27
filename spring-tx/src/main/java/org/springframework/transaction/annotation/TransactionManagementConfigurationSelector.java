@@ -47,7 +47,7 @@ public class TransactionManagementConfigurationSelector extends AdviceModeImport
 			 * 为我们的容器中导入了二个组件 一个是AutoProxyRegistrar
 			 * 一个是ProxyTransactionManagementConfiguration
 			 */
-			//AutoProxyRegistrar：注册了一个处理事务的bean的后置处理器，通过import注册的，注册的bean的后置处理器会在createBean的时候进行调用(调用bean的第一次后置处理器)
+			//AutoProxyRegistrar：注册了一个处理事务的bean的后置处理器（作用：解析切面、创建动态代理），通过import注册的，注册的bean的后置处理器会在createBean的时候进行调用(调用bean的第一次后置处理器)
 			//ProxyTransactionManagementConfiguration:主要是注册了一个advisor
 			case PROXY:
 				return new String[] {AutoProxyRegistrar.class.getName(),

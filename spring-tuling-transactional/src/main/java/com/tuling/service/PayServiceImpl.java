@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  */
 @Component
 //@Transactional(rollbackFor = Exception.class)
-@Transactional
+//@Transactional
 public class PayServiceImpl implements PayService {
 
     @Autowired
@@ -25,6 +25,7 @@ public class PayServiceImpl implements PayService {
     private ProductInfoDao productInfoDao;
 
     @Override
+	@Transactional(rollbackFor = Exception.class)
 	public void pay(String accountId, double money) {
         //查询余额
         double blance = accountInfoDao.qryBlanceByUserId(accountId);
@@ -40,14 +41,14 @@ public class PayServiceImpl implements PayService {
 
         //库存-1
         //updateProductStore(1);
-        ((PayService)AopContext.currentProxy()).updateProductStore(1);
+//        ((PayService)AopContext.currentProxy()).updateProductStore(1);
 
         System.out.println(1/0);
 
     }
 
     @Override
-	@Transactional(propagation = Propagation.NESTED)
+//	@Transactional(propagation = Propagation.NESTED)
     public void updateProductStore(Integer productId) {
         try{
             productInfoDao.updateProductInfo(productId);

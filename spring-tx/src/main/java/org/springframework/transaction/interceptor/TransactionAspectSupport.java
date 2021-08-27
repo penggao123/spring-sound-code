@@ -278,7 +278,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 	protected Object invokeWithinTransaction(Method method, @Nullable Class<?> targetClass,
 			final InvocationCallback invocation) throws Throwable {
 
-		//获取我们的事务属源对象 在配置类中添加的， 在创建代理进行匹配的时候还用了它还记得吗（将解析的事务属性赋值进去了）
+		//获取我们的事务属性源对象 在配置类中添加的， 在创建代理进行匹配的时候还用了它还记得吗（将解析的事务属性赋值进去了）
 		TransactionAttributeSource tas = getTransactionAttributeSource();
 		// 获取解析后的事务属性信息，
 		//  创建代理的时候也调用了getTransactionAttribute还记得吗， 如果解析到了事务属性就可以创建代理，

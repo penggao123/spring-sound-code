@@ -72,7 +72,7 @@ public abstract class AopConfigUtils {
 	@Nullable
 	public static BeanDefinition registerAutoProxyCreatorIfNecessary(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
-
+//		TODO  InfrastructureAdvisorAutoProxyCreator：处理事务的一个Bean的后置处理器
 		return registerOrEscalateApcAsRequired(InfrastructureAdvisorAutoProxyCreator.class, registry, source);
 	}
 
@@ -126,6 +126,7 @@ public abstract class AopConfigUtils {
 				int currentPriority = findPriorityForClass(apcDefinition.getBeanClassName());
 				int requiredPriority = findPriorityForClass(cls);
 				if (currentPriority < requiredPriority) {
+					//如果事务和aop同时开启时，会通过方法`findPriorityForClass(cls)`进行比较进行覆盖哪一个(是根据索引下标判断谁大小的)，结果是aop覆盖事务
 					apcDefinition.setBeanClassName(cls.getName());
 				}
 			}

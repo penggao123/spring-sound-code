@@ -111,6 +111,7 @@ public abstract class AbstractFallbackTransactionAttributeSource implements Tran
 		}
 		else {
 			//我们需要查找我们的事务注解
+			//computeTransactionAttribute(method, targetClass)：该方法会解析@Transactional注解
 			TransactionAttribute txAttr = computeTransactionAttribute(method, targetClass);
 			// 若解析出来的事务注解属性为空
 			if (txAttr == null) {

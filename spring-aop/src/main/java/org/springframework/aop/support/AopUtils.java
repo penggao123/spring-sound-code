@@ -326,6 +326,7 @@ public abstract class AopUtils {
 		//循环我们候选的增强器对象
 		for (Advisor candidate : candidateAdvisors) {
 			//判断我们的增强器对象是不是实现了IntroductionAdvisor (很明显我们事务的没有实现 所以不会走下面的逻辑)
+			//除非使用了aop的引用，才会实现IntroductionAdvisor接口
 			if (candidate instanceof IntroductionAdvisor && canApply(candidate, clazz)) {
 				eligibleAdvisors.add(candidate);
 			}

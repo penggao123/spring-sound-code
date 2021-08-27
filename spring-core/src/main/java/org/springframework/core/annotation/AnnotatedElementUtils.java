@@ -1046,7 +1046,7 @@ public class AnnotatedElementUtils {
 				if (annotations.length > 0) {
 					List<T> aggregatedResults = (processor.aggregates() ? new ArrayList<>() : null);
 
-					// Search in local annotations
+					// Search in local annotations   TODO 本地方法中找
 					for (Annotation annotation : annotations) {
 						Class<? extends Annotation> currentAnnotationType = annotation.annotationType();
 						if (!AnnotationUtils.isInJavaLangAnnotationPackage(currentAnnotationType)) {
@@ -1101,10 +1101,10 @@ public class AnnotatedElementUtils {
 					}
 				}
 
-				if (element instanceof Method) {
+				if (element instanceof Method) {//TODO  如果是element是方法，查找顺序为：接口的方法、父类的方法
 					Method method = (Method) element;
 					T result;
-
+//方法找、桥接方法找、接口方法找、父类的方法中找、根据方法所在的类
 					// Search on possibly bridged method
 					Method resolvedMethod = BridgeMethodResolver.findBridgedMethod(method);
 					if (resolvedMethod != method) {
@@ -1115,7 +1115,7 @@ public class AnnotatedElementUtils {
 						}
 					}
 
-					// Search on methods in interfaces declared locally
+					// Search on methods in interfaces declared locally  TODO 去接口的方法中找
 					Class<?>[] ifcs = method.getDeclaringClass().getInterfaces();
 					if (ifcs.length > 0) {
 						result = searchOnInterfaces(method, annotationType, annotationName,
@@ -1125,7 +1125,7 @@ public class AnnotatedElementUtils {
 						}
 					}
 
-					// Search on methods in class hierarchy and interface hierarchy
+					// Search on methods in class hierarchy and interface hierarchy   TODO 去父类的方法中找
 					Class<?> clazz = method.getDeclaringClass();
 					while (true) {
 						clazz = clazz.getSuperclass();
@@ -1156,7 +1156,7 @@ public class AnnotatedElementUtils {
 				else if (element instanceof Class) {
 					Class<?> clazz = (Class<?>) element;
 					if (!Annotation.class.isAssignableFrom(clazz)) {
-						// Search on interfaces
+						// Search on interfaces  TODO 在接口上找
 						for (Class<?> ifc : clazz.getInterfaces()) {
 							T result = searchWithFindSemantics(ifc, annotationType, annotationName,
 									containerType, processor, visited, metaDepth);
@@ -1164,7 +1164,7 @@ public class AnnotatedElementUtils {
 								return result;
 							}
 						}
-						// Search on superclass
+						// Search on superclass    TODO 在父类上找
 						Class<?> superclass = clazz.getSuperclass();
 						if (superclass != null && superclass != Object.class) {
 							T result = searchWithFindSemantics(superclass, annotationType, annotationName,

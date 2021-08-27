@@ -45,7 +45,9 @@ public class ProxyTransactionManagementConfiguration extends AbstractTransaction
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public BeanFactoryTransactionAttributeSourceAdvisor transactionAdvisor() {
 		BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
+		//AnnotationTransactionAttributeSource：这个是pointcut，
 		advisor.setTransactionAttributeSource(transactionAttributeSource());
+		//TransactionInterceptor  这个是Advice
 		advisor.setAdvice(transactionInterceptor());
 		if (this.enableTx != null) {
 			advisor.setOrder(this.enableTx.<Integer>getNumber("order"));
@@ -54,7 +56,7 @@ public class ProxyTransactionManagementConfiguration extends AbstractTransaction
 	}
 
 	/**
-	 * 事务属性源对象:用于获取事务属性对象
+	 * 事务属性源对象:用于解析注解@Transactional
 	 * @return
 	 */
 	@Bean
@@ -64,7 +66,7 @@ public class ProxyTransactionManagementConfiguration extends AbstractTransaction
 	}
 
 	/**
-	 * 用户拦截事务方法执行的
+	 * 用户拦截事务方法执行的(处理事务的)
 	 * @return
 	 */
 	@Bean

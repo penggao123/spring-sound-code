@@ -197,9 +197,9 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 			 }
 			 *还有的就是事务方法调用事务方法的时候 也需要这样来社会
 			 */
-			if (this.advised.exposeProxy) {
+			if (this.advised.exposeProxy) { //判断当前线程需不需要暴露到当前线程当中，(exposeProxy = true)这个参数配置
 				//把我们的代理对象暴露到线程变量中
-				oldProxy = AopContext.setCurrentProxy(proxy);
+				oldProxy = AopContext.setCurrentProxy(proxy);//把代理设置到ThreadLocal里面
 				setProxyContext = true;
 			}
 

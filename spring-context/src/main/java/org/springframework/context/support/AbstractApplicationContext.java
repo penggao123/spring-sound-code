@@ -523,9 +523,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
 			//1:准备刷新上下文环境  生命早期的监听器和事件，不需要手动调用publishEvent
+//			做了一些刷新前的准备工作，和主流程关系不大，主要是保存了容器的启动时间，启动标志等
 			prepareRefresh();
 
 			//2:获取告诉子类初始化Bean工厂  不同工厂不同实现
+//			该方法可以简单的认为，就是把beanFactory取出来而已。XML模式下会在这里读取BeanDefinition
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			//3:对bean工厂进行填充属性   注册解析接口方式的监听器的BeanPostProcessor

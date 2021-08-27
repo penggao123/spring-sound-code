@@ -125,7 +125,8 @@ public class EncodedUriTests {
 			return bean;
 		}
 
-		public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+		@Override
+        public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 			return bean;
 		}
 
