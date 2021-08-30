@@ -83,7 +83,7 @@ public class AnnotationConfigUtils {
 	 */
 	public static final String AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME =
 			"org.springframework.context.annotation.internalAutowiredAnnotationProcessor";
-
+//
 	/**
 	 * The bean name of the internally managed Required annotation processor.
 	 */

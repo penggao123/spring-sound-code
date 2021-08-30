@@ -284,7 +284,7 @@ class ConfigurationClassParser {
 		// Recursively process any member (nested) classes first
 		processMemberClasses(configClass, sourceClass);
 
-		//处理我们的@propertySource注解的
+		//处理我们的@propertySource注解的，@PropertySource注解用来加载properties文件
 		for (AnnotationAttributes propertySource : AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), PropertySources.class,
 				org.springframework.context.annotation.PropertySource.class)) {
@@ -298,15 +298,17 @@ class ConfigurationClassParser {
 		}
 
 		//解析我们的 @ComponentScan 注解
-
+		//获得ComponentScan注解具体的内容，ComponentScan注解除了最常用的basePackage之外，还有includeFilters，excludeFilters等
 		//从我们的配置类上解析处ComponentScans的对象集合属性
 		Set<AnnotationAttributes> componentScans = AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), ComponentScans.class, ComponentScan.class);
+		//如果没有打上ComponentScan，或者被@Condition条件跳过，就不再进入这个if
 		if (!componentScans.isEmpty() &&
 				!this.conditionEvaluator.shouldSkip(sourceClass.getMetadata(), ConfigurationPhase.REGISTER_BEAN)) {
 			//循环解析 我们解析出来的AnnotationAttributes
 			for (AnnotationAttributes componentScan : componentScans) {
 				//把我们扫描出来的类变为bean定义的集合 真正的解析
+				//componentScan就是@ComponentScan上的具体内容，sourceClass.getMetadata().getClassName()就是配置类的名称
 				Set<BeanDefinitionHolder> scannedBeanDefinitions = //解析有效的Bean定义，把Bean定义注册进去
 						this.componentScanParser.parse(componentScan, sourceClass.getMetadata().getClassName());
 				//循环处理我们包扫描出来的bean定义
@@ -318,6 +320,7 @@ class ConfigurationClassParser {
 					//判断当前扫描出来的bean定义是不是一个配置类,若是的话 直接进行递归解析
 					if (ConfigurationClassUtils.checkConfigurationClassCandidate(bdCand, this.metadataReaderFactory)) {
 						//递归解析 因为@Component算是lite配置类
+						//递归调用，因为可能组件类有被@Bean标记的方法，或者组件类本身也有ComponentScan等注解
 						parse(bdCand.getBeanClassName(), holder.getBeanName());
 					}
 				}
@@ -325,6 +328,9 @@ class ConfigurationClassParser {
 		}
 
 		// 处理 @Import annotations
+		//@Import注解是spring中很重要的一个注解，Springboot大量应用这个注解
+		//@Import三种类，一种是Import普通类，一种是Import ImportSelector，还有一种是Import ImportBeanDefinitionRegistrar
+		//getImports(sourceClass)是获得import的内容，返回的是一个set
 		processImports(configClass, sourceClass, getImports(sourceClass), true);
 
 		// 处理 @ImportResource annotations
@@ -340,6 +346,7 @@ class ConfigurationClassParser {
 		}
 
 		// 处理 @Bean methods 获取到我们配置类中所有标注了@Bean的方法
+		//TODO 处理@Bean的方法，可以看到获得了带有@Bean的方法后，不是马上转换成BeanDefinition，而是先用一个set接收
 		Set<MethodMetadata> beanMethods = retrieveBeanMethodMetadata(sourceClass);
 
 		for (MethodMetadata methodMetadata : beanMethods) {
